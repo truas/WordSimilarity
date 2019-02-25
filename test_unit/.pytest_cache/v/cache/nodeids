@@ -1,0 +1,5 @@
+[
+  "tdd.py::TestSimilarity::test_cosine_similarity",
+  "tdd.py::TestSimilarity::test_readLine3Columns",
+  "tdd.py::TestSimilarity::test_readLine5Columns"
+]

@@ -1,0 +1,4 @@
+{
+  "tdd.py::TestSimilarity::()::test_cosine_distance": true,
+  "tdd.py::TestSimilarity::test_readLine": true
+}
