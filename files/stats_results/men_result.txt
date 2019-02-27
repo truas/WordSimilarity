@@ -1,0 +1,4 @@
+Metric	Spearman	S-Rho
+men_avgsim.	0.7515152116084659	0.0
+men_globsim.	0.7604221002488443	0.0
+men_maxsim.	0.744923113809288	0.0

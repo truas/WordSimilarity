@@ -14,7 +14,7 @@ It includes a  `converter` package to convert your data into a proper format use
 
     # python3 mainconverter.py --input <location> --output <loaction> --cont <benchmark-delimiter>
     
-`--input:` - Input folder-file
+`--input:` - Input folder-file (e.g. `converter` - output)
  
 `--output` - Output folder for the converted files - This will produce the following metrics [avgSim, avgSimC, maxSim, maxSimC, globalSim, and globalSimC ]
 
@@ -30,7 +30,7 @@ It includes a  `converter` package to convert your data into a proper format use
      
      # python3 mainconverter.py --gold <location> --ruby <loacation> --output <location>
     
-   `--gold:` - Input gold standard file
+   `--gold:` - Input gold standard file (e.g. `converter` - output for each dataset)
    
    `--ruby:` - Input ruby compared file(s). Each file is compared with `--gold` - Folder with Different metrics calculated (e.g. `default` - output)
    

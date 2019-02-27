@@ -12,6 +12,7 @@ class NoContextSimilarity:
 
     # calculates de similarity of two words - does not consider context
     def noContextSim(self, tokens, trained_model):
+        print('Running: Word Similarity - Context False')
         synset_op = SynsetParserVector()
         new_tokens = []
 
@@ -82,6 +83,7 @@ class ContextSimilarity:
 
     # calculates the similarity of two words given a context
     def yesContextSim(self, tokens, trained_model):
+        print('Running: Word Similarity - Context True')
         sim_nocontext = NoContextSimilarity()
         synset_op = SynsetParserVector()
         text_parser = TextParser()
@@ -95,17 +97,17 @@ class ContextSimilarity:
             context_a = text_parser.cleanText(token.sent1)
             context_b = text_parser.cleanText(token.sent2)
             # average vector for the context for each word
-            clean_context_a = self.contextParser(context_a, trained_model)
-            clean_context_b = self.contextParser(context_b, trained_model)
+            clean_context_a = self.__contextParser(context_a, trained_model)
+            clean_context_b = self.__contextParser(context_b, trained_model)
             # clean synsets that only exist in the model
             vec_syna = synset_op.validate_synsets_model(token.word1, synsets_a, trained_model)
             vec_synb = synset_op.validate_synsets_model(token.word2, synsets_b, trained_model)
 
             # perform all metrics Word Similarity
             # Context
-            new_token.sim.maxC = self.maxSimC(vec_syna, clean_context_a, vec_synb, clean_context_b)
-            new_token.sim.avgC = self.avgSimC(vec_syna, clean_context_a, vec_synb, clean_context_b)
-            new_token.sim.globC = self.globalSimC(clean_context_a, clean_context_b)
+            new_token.sim.maxC = self.__maxSimC(vec_syna, clean_context_a, vec_synb, clean_context_b)
+            new_token.sim.avgC = self.__avgSimC(vec_syna, clean_context_a, vec_synb, clean_context_b)
+            new_token.sim.globC = self.__globalSimC(clean_context_a, clean_context_b)
             # No Context
             new_token.sim.max = sim_nocontext.maxSim(vec_syna, vec_synb)
             new_token.sim.avg = sim_nocontext.avgSim(vec_syna, vec_synb)
@@ -118,17 +120,17 @@ class ContextSimilarity:
         return new_tokens
 
     # maximum similarity between v1 and v2 - takes context into account LocalSimC
-    def maxSimC(self, vecs_a, context_a, vecs_b, context_b):
+    def __maxSimC(self, vecs_a, context_a, vecs_b, context_b):
         vecmanip = VectorManipulation()
-        closest_a = self.closestSenseContext(vecs_a, context_a)
-        closest_b = self.closestSenseContext(vecs_b, context_b)
+        closest_a = self.__closestSenseContext(vecs_a, context_a)
+        closest_b = self.__closestSenseContext(vecs_b, context_b)
 
         result = vecmanip.cosine_similarity(closest_a, closest_b)
 
         return result
 
     # calculates the average similarity between two word-synsets considering context
-    def avgSimC(self, vecs_a, context_a, vecs_b, context_b):
+    def __avgSimC(self, vecs_a, context_a, vecs_b, context_b):
         vecmanip = VectorManipulation()
         partial_sim = 0.0
 
@@ -147,14 +149,14 @@ class ContextSimilarity:
         return final_sim
 
     # global similarity considering the vector contexts of words
-    def globalSimC(self, context_a, context_b):
+    def __globalSimC(self, context_a, context_b):
         vecmanip = VectorManipulation()
         global_simc = vecmanip.cosine_similarity(context_a, context_b)
 
         return global_simc
 
     # give the average vector from all words in the context
-    def contextParser(self, text_items, trained_model):
+    def __contextParser(self, text_items, trained_model):
         track_synset = SynsetParserVector()
         vector_manip = VectorManipulation()
         context_vector = []
@@ -172,7 +174,7 @@ class ContextSimilarity:
         return  numpy.average(context_vector, axis=0)
 
     # gives the closest sense to the context attached to it
-    def closestSenseContext(self, synset_vecs, contextvec):
+    def __closestSenseContext(self, synset_vecs, contextvec):
         vecmanip = VectorManipulation()
         high_so_far = -1.0
         nearest = []

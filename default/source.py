@@ -36,7 +36,9 @@ if __name__ == '__main__':
     docs = fio.doclist_multifolder(in_loc)
 
     for doc in docs:
-        print('Calculating WordSim: %s' % doc)
+        doc_name = doc.split(os.sep)
+        doc_name = doc_name[-1]
+        print('Calculating WordSim: %s' % doc_name)
         gold_tokens = fio.readFileLine(doc)
         output_name = doc.split(os.sep)
         output_name = output_name[last_position]
@@ -54,4 +56,4 @@ if __name__ == '__main__':
         fio.writeSimMetrics(output_abs, ruby_tokens, metric_type.glob)
         fio.writeSimMetrics(output_abs, ruby_tokens, metric_type.max)
         fio.writeSimMetrics(output_abs, ruby_tokens, metric_type.avg)
-        print('Finished...')
+    print('Finished...')
